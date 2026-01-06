@@ -14,3 +14,4 @@ vite.config.ts.timestamp-*
 # pnpm
 pnpm-debug.log*
 .pnpm-store
+.turbo

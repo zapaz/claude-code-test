@@ -10,8 +10,14 @@ export const GET: RequestHandler = async ({ params }) => {
 			return json({ error: 'Key is required' }, { status: 400 });
 		}
 
-		// Auto-detects credentials when deployed on Netlify
-		const store = getStore('my-store');
+		// Dev: use explicit credentials from .envrc, Prod: auto-detect on Netlify Edge
+		const store = import.meta.env.DEV
+			? getStore({
+					name: 'my-store',
+					siteID: process.env.NETLIFY_SITE_ID,
+					token: process.env.NETLIFY_BLOBS_CONTEXT
+				})
+			: getStore('my-store');
 
 		const rawValue = await store.get(key);
 
@@ -19,7 +25,10 @@ export const GET: RequestHandler = async ({ params }) => {
 			return json({ error: 'Key not found' }, { status: 404 });
 		}
 
-		const textValue = new TextDecoder().decode(rawValue);
+		// Handle both string (old format) and ArrayBuffer (new format)
+		const textValue = typeof rawValue === 'string'
+			? rawValue
+			: new TextDecoder().decode(rawValue);
 		const value = JSON.parse(textValue);
 
 		return json({ success: true, key, value });

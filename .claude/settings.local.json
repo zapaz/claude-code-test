@@ -10,7 +10,9 @@
       "Bash(netlify blobs:list:*)",
       "Bash(netlify env:list:*)",
       "Bash(netlify api listSiteDeploys:*)",
-      "mcp__ide__getDiagnostics"
+      "mcp__ide__getDiagnostics",
+      "Bash(pnpm run dev)",
+      "Bash(direnv allow:*)"
     ]
   }
 }

@@ -10,10 +10,18 @@ export const POST: RequestHandler = async ({ request }) => {
 			return json({ error: 'Key and value are required' }, { status: 400 });
 		}
 
-		// Auto-detects credentials when deployed on Netlify
-		const store = getStore('my-store');
+		// Dev: use explicit credentials from .envrc, Prod: auto-detect on Netlify Edge
+		const store = import.meta.env.DEV
+			? getStore({
+					name: 'my-store',
+					siteID: process.env.NETLIFY_SITE_ID,
+					token: process.env.NETLIFY_BLOBS_CONTEXT
+				})
+			: getStore('my-store');
 
-		await store.set(key, JSON.stringify(value));
+		const jsonString = JSON.stringify(value);
+		const encoder = new TextEncoder();
+		await store.set(key, encoder.encode(jsonString));
 
 		return json({ success: true, key, message: 'Data stored successfully' });
 	} catch (error) {
