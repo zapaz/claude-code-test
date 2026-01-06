@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm create:*)",
+      "Bash(npm install:*)",
+      "Bash(curl:*)",
+      "Bash(netlify status:*)",
+      "Bash(npm run build:*)",
+      "Bash(netlify deploy:*)",
+      "Bash(netlify blobs:list:*)",
+      "Bash(netlify env:list:*)",
+      "Bash(netlify api listSiteDeploys:*)",
+      "mcp__ide__getDiagnostics"
+    ]
+  }
+}
