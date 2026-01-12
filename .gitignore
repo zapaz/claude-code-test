@@ -15,3 +15,4 @@ vite.config.ts.timestamp-*
 pnpm-debug.log*
 .pnpm-store
 .turbo
+.claude
